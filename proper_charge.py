@@ -33,6 +33,10 @@ while True:
     time.sleep(5) # Don't need to be super responsive
     percent = battery_percent()
     if percent >= charging_ceil and state == True:
+        state = False
+        print('Toggling off')
         device.off()
     if percent <= charging_floor and state == False:
+        state = True
+        print('Toggling on')
         device.on()
