@@ -1,6 +1,9 @@
 import subprocess
 import pywemo
 import time
+import json
+
+config = json.loads(open('config.json').read())
 
 
 def battery_percent():
@@ -11,13 +14,13 @@ def battery_percent():
     return int(info)
 
 ## PROVISION WEMO
-ip = 'YOUR_WEMO_DEVICE_IP'
+ip = config['main']['ip']
 port = pywemo.ouimeaux_device.probe_wemo(ip)
 url = 'http://%s:%i/setup.xml' % (ip, port)
 device = pywemo.discovery.device_from_description(url, None)
 
 charging_ceil = 90
-charging_floor = 40
+charging_floor = 50
 
 state = None
 # Set baseline
@@ -28,6 +31,8 @@ if percent < charging_ceil:
 else:
     state = False
     device.off()
+
+print('Set up and running...')
 
 while True:
     time.sleep(5) # Don't need to be super responsive
