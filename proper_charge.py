@@ -45,3 +45,5 @@ while True:
         state = True
         print('Toggling on')
         device.on()
+    activity_log.log('batteryPercent', percent, 'Mac battery percentage')
+
